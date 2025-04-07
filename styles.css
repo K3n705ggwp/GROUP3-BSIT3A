@@ -1,17 +1,17 @@
 /* Base Styles */
 :root {
-    --bg-color: #000;
-    --text-color: #fff;
-    --text-muted: #aaa;
-    --primary-color: #ff7b00;
-    --primary-glow: #ff9d45;
-    --secondary-color: #1a1a1a;
-    --border-color: #333;
-    --neon-color: #ff7b00;
-    --neon-glow: 0 0 5px rgba(255, 123, 0, 0.5), 0 0 10px rgba(255, 123, 0, 0.3);
+    --bg-color: #f2f2f7;
+    --text-color: #000;
+    --text-muted: #8e8e93;
+    --primary-color: #007aff;
+    --primary-glow: #5ac8fa;
+    --secondary-color: #ffffff;
+    --border-color: #d1d1d6;
+    --neon-color: #007aff;
+    --neon-glow: 0 0 6px rgba(0, 122, 255, 0.4), 0 0 10px rgba(0, 122, 255, 0.3);
     --header-height: 70px;
     --container-width: 1200px;
-    --radius: 6px;
+    --radius: 12px;
 }
 
 * {
@@ -22,7 +22,7 @@
 
 body {
     padding-top: calc(var(--header-height) + 20px);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     background-color: var(--bg-color);
     color: var(--text-color);
     line-height: 1.6;
@@ -51,13 +51,13 @@ ul {
 
 /* Header */
 .main-header {
-    background-color: rgba(0, 0, 0, 0.95);
+    background-color: rgba(255, 255, 255, 0.95);
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     z-index: 100;
-    border-bottom: 1px solid var(--primary-color);
+    border-bottom: 1px solid var(--border-color);
     box-shadow: var(--neon-glow);
 }
 
@@ -90,7 +90,7 @@ ul {
 .nav-links a:hover,
 .nav-links a.active {
     background-color: var(--primary-color);
-    color: var(--bg-color);
+    color: var(--secondary-color);
 }
 
 /* Main Layout */
@@ -162,7 +162,7 @@ main {
 .btn {
     display: inline-block;
     background-color: var(--primary-color);
-    color: var(--bg-color);
+    color: var(--secondary-color);
     padding: 10px 20px;
     border-radius: var(--radius);
     font-weight: 600;
@@ -184,6 +184,9 @@ main {
     border-radius: var(--radius);
     padding: 20px;
     margin: 20px 0;
+}
+
+/* Add any additional sections you had below */
 }
 
 .highlight-box.primary {
