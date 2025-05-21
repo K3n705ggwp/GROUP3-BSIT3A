@@ -49,14 +49,80 @@
                 and compartment-based data access.
             </p>
 
-          
+   <div style="max-width: 800px; margin: 0 auto; padding: 20px; text-align: center;">
+  <img 
+    src="DBA.png" 
+    alt="DBAimage" 
+    title="Click to view full screen"
+    style="max-width: 100%; height: auto; border-radius: 10px; cursor: pointer;" 
+    onclick="if(this.requestFullscreen){this.requestFullscreen();}else if(this.webkitRequestFullscreen){this.webkitRequestFullscreen();}else if(this.msRequestFullscreen){this.msRequestFullscreen();}">
+</div>
+
             
             <div class="highlight-box primary">
-                <p>
-                    The system relies on MySQL to handle delivery, user, payment, and compartment data. 
-                    Tables are normalized for clean data operations, while views and reports are generated 
-                    through custom queries and joins. Security, reliability, and real-time access are core 
-                    to its structure.
+         
+
+
+
+  <h3 style="font-weight: bold;">Centralized Database Architecture (With Admin Functionality)</h3>
+
+  <p>
+    This architecture diagram illustrates a <strong>centralized database system</strong> where all entities—clients, database, and admin—interact with a single, central server. It ensures unified data access, consistent operations, and simplified system management.
+  </p>
+
+  <h4 style="margin-bottom: 5px;">Components:</h4>
+  <ol style="padding-left: 20px;">
+
+    <li style="margin-bottom: 10px;">
+      <strong>Clients (Users)</strong><br>
+      <span>Represent end-users such as customers who access system features like rental services and parcel delivery information. Clients send and receive data through API calls to the central database.</span>
+    </li>
+
+    <li style="margin-bottom: 10px;">
+      <strong>Central Database Server</strong><br>
+      <span>
+        A single, unified storage that houses all critical data including customer records, 
+        <u>lockbox</u> status, rental details, delivery logs, and payment transactions.
+      </span>
+      <ul style="margin-top: 5px;">
+        <li>-Ensures <strong>real-time access, data consistency,</strong> and <strong>easier maintenance</strong>.</li>
+        <li>-Designed with role-based access control (RBAC) to separate access privileges by user roles.</li>
+      </ul>
+    </li>
+
+    <li style="margin-bottom: 10px;">
+      <strong>Admin (Landlord)</strong><br>
+      <span>Acts as the <strong>primary controller</strong> of the system:</span>
+      <ul style="margin-top: 5px;">
+        <li>-Registers new customers</li>
+        <li>-Manages lockbox availability and assignments</li>
+        <li>-Oversees rentals and updates statuses</li>
+        <li>-Monitors deliveries and payments</li>
+      </ul>
+    </li>
+
+  </ol>
+
+  <p>
+    The landlord interacts directly with the database, ensuring all operational data is current and properly managed. This role has <strong>elevated privileges</strong> compared to regular users.
+  </p>
+
+  <h4>Key Benefits:</h4>
+  <ul>
+    <li>
+      <strong>Single Source of Truth</strong> – All data operations are performed in one place, minimizing redundancy.
+    </li>
+    <li>
+      <strong>Real-Time Operations</strong> – Immediate updates to lockbox and parcel status ensure users and admins work with the most recent data.
+    </li>
+    <li>
+      <strong>Secure and Scalable</strong> – Supports encryption, access controls, and is ideal for small to mid-sized deployment zones.
+    </li>
+  </ul>
+
+</body>
+</html>
+
                 </p>
             </div>
 
