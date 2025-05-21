@@ -11,61 +11,61 @@
 </head>
 <body>
 
-<!-- Header -->
-<header class="main-header">
-  <div class="container">
-    <div class="header-content">
-      <nav class="main-nav">
-        <ul class="nav-links">
-          <li><a href="index.html">Home</a></li>
-          <li><a href="rationale.html">Rationale</a></li>
-          <li><a href="objectives.html">Objectives</a></li>
-          <li><a href="architecture.html">Database Architecture</a></li>
-          <li><a href="er-diagram.html">Entity Relationship Diagram</a></li>
-          <li><a href="queries.html" class="active">Queries</a></li>
-          <li><a href="https://www.db-fiddle.com/f/25i1UhdXuQ2SGugCM89TF8/2" target="_blank">DB-Fiddle</a></li>
-        </ul>
-      </nav>
-      <button class="mobile-menu-btn">
-        <span class="bar"></span>
-        <span class="bar"></span>
-        <span class="bar"></span>
-      </button>
+  <!-- Header -->
+  <header class="main-header">
+    <div class="container">
+      <div class="header-content">
+        <h1 class="site-title"></h1>
+        <nav class="main-nav">
+          <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="rationale.html">Rationale</a></li>
+            <li><a href="objectives.html">Objectives</a></li>
+            <li><a href="architecture.html">Database Architecture</a></li>
+            <li><a href="er-diagram.html">Entity Relationship Diagram</a></li>
+            <li><a href="queries.html" class="active">Queries</a></li>
+            <li><a href="https://www.db-fiddle.com/f/25i1UhdXuQ2SGugCM89TF8/2?fbclid=IwY2xjawKalCtleHRuA2FlbQIxMQABHitNANVDdXIxiwCPrQt8vcHwaA84lmQMgVKvv6qEAEmCN6v3GIGNLpzlm-87_aem_27aHSG1Cw5hniVe-gMsu2g#" target="_blank">DB-Fiddle</a></li>
+          </ul>
+        </nav>
+        <button class="mobile-menu-btn">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </button>
+      </div>
     </div>
-  </div>
-</header>
+  </header>
 
-<!-- Main Content -->
-<main class="container">
-    <div class="highlight-box primary">
-  <h1><span class="neon-text"></span> Queries</h1>
-  <p class="subtitle">Key SQL tables and their relationships in the Parcel Lockbox database</p>
+  <!-- Main Content -->
+  <main class="container">
+      <div class="highlight-box primary">
+    <h1><span class="neon-text"></span> Queries</h1>
+    <p class="subtitle">Key SQL tables that define the Parcel Lockbox database structure and their relationships</p>
 
-  <div class="content-section">
-    <p class="text-lg">
-      Below are the essential tables and relationships used in our parcel lockbox system.
-      Each table serves a role in managing rentals, customers, and lockboxes, forming
-      a relational database designed for secure and efficient tracking.
-    </p>
+    <div class="content-section">
+      <p class="text-lg">
+        The following SQL statements create the core tables of the Parcel Lockbox database. 
+        Each table's purpose, its fields, and its relationships with other tables are explained.
+      </p>
 
-    <!-- Landlord Table -->
-    <h2>1. Landlord Table</h2>
-    <p>This table stores details about the lockbox owner or administrator who registers customers and lockboxes.</p>
-    <div class="code-block"><pre>
+      <h2>Database Table Structures</h2>
+
+      <div class="code-block">
+        <pre>
+<span class="sql-comment">-- Landlord Table: Stores landlords who own lockboxes</span>
 CREATE TABLE `landlord` (
   `landlordID` INT AUTO_INCREMENT,
   `reg_Customer` VARCHAR(50),
   `reg_Rental` VARCHAR(50),
   PRIMARY KEY (`landlordID`)
 );
-    </pre></div>
-    <p><strong>Primary Key:</strong> landlordID</p>
-    <p><strong>Used by:</strong> References in <code>lockbox</code> and <code>customer</code> tables.</p>
+<span class="sql-comment">-- Each landlord can own multiple lockboxes (1:N relationship)</span>
+        </pre>
+      </div>
 
-    <!-- Lockbox Table -->
-    <h2>2. Lockbox Table</h2>
-    <p>Represents each physical lockbox and stores its location and status (e.g., available, rented).</p>
-    <div class="code-block"><pre>
+      <div class="code-block">
+        <pre>
+<span class="sql-comment">-- Lockbox Table: Represents lockboxes owned by landlords</span>
 CREATE TABLE `lockbox` (
   `lockboxID` INT AUTO_INCREMENT,
   `landlordID` INT,
@@ -74,14 +74,13 @@ CREATE TABLE `lockbox` (
   PRIMARY KEY (`lockboxID`),
   FOREIGN KEY (`landlordID`) REFERENCES `landlord`(`landlordID`)
 );
-    </pre></div>
-    <p><strong>Foreign Key:</strong> landlordID (from Landlord)</p>
-    <p><strong>Relationship:</strong> Many lockboxes can belong to one landlord (1:N).</p>
+<span class="sql-comment">-- One landlord has many lockboxes; each lockbox belongs to one landlord</span>
+        </pre>
+      </div>
 
-    <!-- Customer Table -->
-    <h2>3. Customer Table</h2>
-    <p>Holds customer profiles who rent lockboxes, including their name, contact, and address.</p>
-    <div class="code-block"><pre>
+      <div class="code-block">
+        <pre>
+<span class="sql-comment">-- Customer Table: Stores customers who rent lockboxes and receive parcels</span>
 CREATE TABLE `customer` (
   `customerID` INT AUTO_INCREMENT,
   `landlordID` INT,
@@ -94,14 +93,13 @@ CREATE TABLE `customer` (
   PRIMARY KEY (`customerID`),
   FOREIGN KEY (`landlordID`) REFERENCES `landlord`(`landlordID`)
 );
-    </pre></div>
-    <p><strong>Foreign Key:</strong> landlordID (from Landlord)</p>
-    <p><strong>Relationship:</strong> A landlord can manage multiple customers (1:N).</p>
+<span class="sql-comment">-- Customers relate to landlords they rent from (1:N landlord to customers)</span>
+        </pre>
+      </div>
 
-    <!-- Rental Table -->
-    <h2>4. Rental Table</h2>
-    <p>This table links customers to the lockboxes they rent. It also stores rental dates and rental status.</p>
-    <div class="code-block"><pre>
+      <div class="code-block">
+        <pre>
+<span class="sql-comment">-- Rental Table: Tracks rental agreements between customers and lockboxes</span>
 CREATE TABLE `rental` (
   `rentalID` INT AUTO_INCREMENT,
   `customerID` INT,
@@ -113,57 +111,125 @@ CREATE TABLE `rental` (
   FOREIGN KEY (`customerID`) REFERENCES `customer`(`customerID`),
   FOREIGN KEY (`lockboxID`) REFERENCES `lockbox`(`lockboxID`)
 );
-    </pre></div>
-    <p><strong>Foreign Keys:</strong> customerID (from Customer), lockboxID (from Lockbox)</p>
-    <p><strong>Relationship:</strong> This is a bridge table. It creates a many-to-many (M:N) relationship between customers and lockboxes through rentals.</p>
+<span class="sql-comment">-- A customer can have multiple rentals, each rental associates one lockbox</span>
+        </pre>
+      </div>
 
-    <!-- Relationship Summary -->
-    <h2>Entity Relationships Summary</h2>
-    <ul>
-      <li><strong>Landlord → Lockbox:</strong> One landlord can own many lockboxes (1:N)</li>
-      <li><strong>Landlord → Customer:</strong> One landlord can manage multiple customers (1:N)</li>
-      <li><strong>Customer → Rental:</strong> One customer can have multiple rentals (1:N)</li>
-      <li><strong>Lockbox → Rental:</strong> One lockbox can be rented many times (1:N)</li>
-      <li><strong>Rental:</strong> Connects customer and lockbox (M:N resolved using Rental)</li>
-    </ul>
-  </div>
-</main>
+      <div class="code-block">
+        <pre>
+<span class="sql-comment">-- Parcel Table: Stores parcels placed in lockboxes for customers</span>
+CREATE TABLE `parcel` (
+  `parcelID` INT AUTO_INCREMENT,
+  `customerID` INT,
+  `lockboxID` INT,
+  `status` VARCHAR(20),
+  `deliveryDate` DATE,
+  `time` TIME,
+  `paymentMethod` VARCHAR(50),
+  PRIMARY KEY (`parcelID`),
+  FOREIGN KEY (`customerID`) REFERENCES `customer`(`customerID`),
+  FOREIGN KEY (`lockboxID`) REFERENCES `lockbox`(`lockboxID`)
+);
+<span class="sql-comment">-- Each parcel is linked to one customer and one lockbox (1:N relationships)</span>
+        </pre>
+      </div>
 
-<!-- Footer -->
+      <div class="code-block">
+        <pre>
+<span class="sql-comment">-- Rider Table: Stores delivery riders responsible for parcels</span>
+CREATE TABLE `rider` (
+  `riderID` INT AUTO_INCREMENT,
+  `parcelID` INT,
+  `riderName` VARCHAR(100),
+  `riderNo` INT(20),
+  `riderCompany` VARCHAR(100),
+  PRIMARY KEY (`riderID`),
+  FOREIGN KEY (`parcelID`) REFERENCES `parcel`(`parcelID`)
+);
+<span class="sql-comment">-- One parcel has one rider; a rider is assigned to one parcel (1:1)</span>
+        </pre>
+      </div>
+
+      <div class="code-block">
+        <pre>
+<span class="sql-comment">-- Payment Table: Stores payment information for parcels</span>
+CREATE TABLE `payment` (
+  `paymentID` INT AUTO_INCREMENT,
+  `parcelID` INT,
+  `amount` DECIMAL(10, 2),
+  `date` DATE,
+  `timestamp` TIMESTAMP,
+  `paymentStatus` VARCHAR(50),
+  PRIMARY KEY (`paymentID`),
+  FOREIGN KEY (`parcelID`) REFERENCES `parcel`(`parcelID`)
+);
+<span class="sql-comment">-- Payments relate to parcels; each parcel can have multiple payments (1:N)</span>
+        </pre>
+      </div>
+
+      <h2>Summary of Relationships</h2>
+      <p>
+        <strong>Landlord to Lockbox:</strong> One landlord owns many lockboxes (1:N).<br />
+        <strong>Landlord to Customer:</strong> One landlord has many customers renting (1:N).<br />
+        <strong>Customer to Rental:</strong> One customer can have multiple rentals (1:N).<br />
+        <strong>Lockbox to Rental:</strong> One lockbox can be rented multiple times (1:N).<br />
+        <strong>Customer to Parcel:</strong> One customer can receive many parcels (1:N).<br />
+        <strong>Lockbox to Parcel:</strong> One lockbox can store many parcels (1:N).<br />
+        <strong>Parcel to Rider:</strong> Each parcel is assigned to one rider (1:1).<br />
+        <strong>Parcel to Payment:</strong> One parcel can have multiple payment records (1:N).
+      </p>
+
+      <h2>Why This Structure?</h2>
+      <p>
+        This database design supports a scalable system where multiple landlords manage many lockboxes, which can be rented by multiple customers. Parcels delivered are tracked per customer and per lockbox, with riders linked to parcels for delivery accountability. Payments are recorded separately to allow tracking of partial payments, refunds, or multiple payment methods.
+      </p>
+    </div>
+  </main>
+
+   <!-- Footer -->
+   <!-- Footer -->
 <footer class="main-footer">
-  <div class="container">
-    <div class="footer-content">
-      <div class="footer-info">
-        <h2><span class="neon-text">DB</span>Portfolio</h2>
-        <p>A comprehensive showcase of database system design and implementation</p>
-      </div>
-      <div class="footer-nav">
-        <h3>Explore</h3>
-        <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="rationale.html">Rationale</a></li>
-          <li><a href="objectives.html">Objectives</a></li>
-          <li><a href="architecture.html">DB Architecture</a></li>
-          <li><a href="er-diagram.html">ER Diagram</a></li>
-          <li><a href="queries.html">Queries</a></li>
-          <li><a href="https://www.db-fiddle.com/f/25i1UhdXuQ2SGugCM89TF8/2" target="_blank">DB-Fiddle</a></li>
-        </ul>
-      </div>
-      <div class="footer-contact">
-        <h3>Members:</h3>
-        <p>Angela A. Azucena</p>
-        <p>Kent Novy E. Chavez</p>
-        <p>Llunice Mae L. Menicable</p>
-        <p>Zachary C. Resulta</p>
-        <p>Kyra Shaine P. Vasquez</p>     
-      </div>
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-info">
+               <h2><span class="neon-text">PLCMS</span></h2>
+          <p>A comprehensive portfolio website presenting our database system, which includes the project title, rationale, objectives, detailed database architecture, entity-relationship diagram, sample queries, and a DB-Fiddle link showcasing the database structure and tables of the system.</p>
+       
+            </div>
+            
+            <div class="footer-nav">
+                <h3>Explore</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="rationale.html">Rationale</a></li>
+                    <li><a href="objectives.html">Objectives</a></li>
+                    <li><a href="architecture.html">DB Architecture</a></li>
+                    <li><a href="er-diagram.html">ER Diagram</a></li>
+                    <li><a href="queries.html">Queries</a></li>
+                    <li><a href="https://www.db-fiddle.com/f/25i1UhdXuQ2SGugCM89TF8/2?fbclid=IwY2xjawKalCtleHRuA2FlbQIxMQABHitNANVDdXIxiwCPrQt8vcHwaA84lmQMgVKvv6qEAEmCN6v3GIGNLpzlm-87_aem_27aHSG1Cw5hniVe-gMsu2g#" target="_blank">DB-Fiddle</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-contact">
+                <h3>Members:</h3>
+                <p>Angela A. Azucena</p>
+                <p>Kent Novy E. Chavez</p>
+                <p>Llunice Mae L. Menicable</p>
+                <p>Zachary C. Resulta</p>
+                <p>Kyra Shaine P. Vasquez</p>   
+            </div>
+        </div>
+        
+        <div class="copyright">
+            <p>&copy; 2025 Database Portfolio. All rights reserved.</p>
+        </div>
     </div>
-    <div class="copyright">
-      <p>&copy; 2025 Database Portfolio. All rights reserved.</p>
-    </div>
-  </div>
 </footer>
 
 <script src="js/script.js"></script>
+</body>
+</html>
+
+
 </body>
 </html>
